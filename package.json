@@ -1,0 +1,12 @@
+{
+  "name": "darkhorsejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "Ayden Greenan",
+  "license": "MIT",
+  "description": "Ayden Greenan's game engine meant for javascript webgames"
+}
