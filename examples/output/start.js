@@ -1,4 +1,4 @@
-import { startProject } from "../darkhorse/darkhorse.js";
+import { startProject } from "../index.js";
 
 const config = {
 	"port": 3000,

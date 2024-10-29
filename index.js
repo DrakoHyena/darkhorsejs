@@ -5,6 +5,7 @@ import { startWebserver } from "./webserver.js"
 
 const dhjsPath = nodejsPath.dirname(import.meta.url).slice(8);
 
+
 function startProject(path, config) {
 	const start = Date.now();
 	if(fs.existsSync("./output") === true){
@@ -29,7 +30,7 @@ function startProject(path, config) {
 		if(file.endsWith(".html") === true){
 			const parsed = parse(`
 				<script>
-				${fs.readFileSync(`${dhjsPath}/clientLib.js`, {encoding: "utf8"})}
+				${fs.readFileSync(`/${dhjsPath}/clientLib.js`, {encoding: "utf8"})}
 				</script>
 				${fs.readFileSync(`${path}/${file}`, { encoding: "utf8" })}
 			`);
