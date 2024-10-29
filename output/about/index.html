@@ -1,0 +1,34 @@
+
+				<script>
+				window.server = {}
+
+server.request = function(id, content, cbSuccess, cbFail=console.error){
+	if(typeof id !== "string"){
+		throw new Error("The id of a request must be a string", id)
+	}
+	if(typeof content !== "string"){
+		throw new Error("The content of a request must be a string", content)
+	}
+	fetch(``, {
+		method: "POST",
+		body: JSON.stringify({id, content})
+	}).then(res=>res.text()).then(cbSuccess).catch(cbFail);
+}
+				</script>
+				<html>
+	<body>
+
+		<h1>Welcome to the about page! You are vistor #<span id="userCount"></span>!</h1>
+		<a href="/">Page 1</a>
+
+		<script side="client">
+			server.request("visitCount", "", (data)=>{
+				document.getElementById("userCount").innerText = data
+			})
+		</script>
+
+		
+
+	</body>
+</html>
+			

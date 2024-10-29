@@ -8,5 +8,8 @@
   "type": "module",
   "author": "Ayden Greenan",
   "license": "MIT",
-  "description": "Ayden Greenan's game engine meant for javascript webgames"
+  "description": "Ayden Greenan's game engine meant for javascript webgames",
+  "dependencies": {
+    "node-html-parser": "^6.1.13"
+  }
 }

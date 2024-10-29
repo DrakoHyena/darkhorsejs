@@ -1,0 +1,26 @@
+<html>
+	<body>
+
+		<h1>Welcome to the home page! You are vistor #<span id="userCount"></span>!</h1>
+		<a href="/about">Page 2</a>
+
+		<script side="client">
+			server.request("visitCount", "", (data)=>{
+				document.getElementById("userCount").innerText = data
+			})
+		</script>
+
+		<script side="server">
+			if(fs.existsSync("./usercount-home.txt") === false) fs.writeFileSync("./usercount-home.txt", "0");
+
+			let count = Number(fs.readFileSync("./usercount-home.txt", {encoding: "utf8"}));
+			count++
+			fs.writeFileSync("./usercount-home.txt", count.toString());
+
+			client.on("visitCount", (req, res, data)=>{
+				res.end(count.toString())
+			})
+		</script>
+
+	</body>
+</html>
