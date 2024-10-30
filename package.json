@@ -8,7 +8,7 @@
   "type": "module",
   "author": "Ayden Greenan",
   "license": "MIT",
-  "description": "Ayden Greenan's game engine meant for javascript webgames",
+  "description": "A lightweight framework that merges to client and server to quickly spin up small websites",
   "dependencies": {
     "node-html-parser": "^6.1.13"
   }

@@ -112,6 +112,7 @@ function startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimiting
 				}
 				for(let funct of functions) eval(funct);
 			}
+			if(filePath.endsWith(".html")) res.writeHead(200, {"Content-Type": "text/html"})
 			res.write(fs.readFileSync(`${outputPath}/${filePath}`));
     	  	res.end();
 			return;
