@@ -16,9 +16,6 @@ function startProject(path, config) {
 	if (fs.existsSync(path) === false) {
 		throw new Error(`Failed to find path: ${path}`);
 	}
-	if (fs.existsSync(`${path}/start.js`) === false){
-		throw new Error(`Missing a start.js file. Check the documentation for more details.`)
-	}
 
 	const dir = fs.readdirSync(path, { recursive: true });
 	const serverFunctions = new Map();
