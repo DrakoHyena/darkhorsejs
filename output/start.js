@@ -1,4 +1,4 @@
-import { startProject } from "../../index.js";
+import { startProject } from "../../builder.js";
 
 const config = {
 	"port": 3000,

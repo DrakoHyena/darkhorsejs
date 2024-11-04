@@ -1,7 +1,7 @@
 {
   "name": "darkhorsejs",
-  "version": "1.0.2",
-  "main": "index.js",
+  "version": "1.1.0",
+  "main": "builder.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -9,6 +9,7 @@
   "author": "Ayden Greenan",
   "license": "MIT",
   "description": "A lightweight framework that merges to client and server to quickly spin up small websites",
+  "repository": "https://github.com/DrakoHyena/darkhorsejs",
   "dependencies": {
     "node-html-parser": "^6.1.13"
   }

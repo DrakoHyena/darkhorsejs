@@ -27,7 +27,7 @@ function startProject(path, config) {
 		if(file.endsWith(".html") === true){
 			const parsed = parse(`
 				<script>
-				${fs.readFileSync(`/${dhjsPath}/clientLib.js`, {encoding: "utf8"})}
+				${fs.readFileSync(`${dhjsPath.startsWith("C")?"":"/"}${dhjsPath}/clientLib.js`, {encoding: "utf8"})}
 				</script>
 				${fs.readFileSync(`${path}/${file}`, { encoding: "utf8" })}
 			`);
@@ -35,9 +35,23 @@ function startProject(path, config) {
 			const serverScripts = parsed.querySelectorAll(`script[side="server"]`);
 			for(let serverScript of serverScripts){
 				serverScript.remove()
+				let content = serverScript.innerText;
+				if(serverScript.attributes.src){
+					if(serverScript.innerText !== ""){
+						throw new Error("Server sided scripts with the src attribute must be empty")
+					}
+					if(serverScript.attributes.src.endsWith(".js") === false){
+						throw new Error("Server sided scripts with the src attribute must be javascript")
+					}
+					if(fs.existsSync(`./${serverScript.attributes.src}`) === false){
+						throw new Error(`Could not find server sided script: ./${serverScript.attributes.src}`)
+					}
+					content = fs.readFileSync(`./${serverScript.attributes.src}`, {encoding: "utf8"})
+				}
+
 				if(serverFunctions.has(file) === false) serverFunctions.set(file, []);
 				let dat = serverFunctions.get(file)
-				dat.push(serverScript.innerText)
+				dat.push(content)
 				serverFunctions.set(file, dat)
 			}
 
@@ -51,7 +65,7 @@ function startProject(path, config) {
 		fs.writeFileSync(`./output/${file}`, fs.readFileSync(`${path}/${file}`))
 	}
 
-	console.log(`[DarkhorseJs] ${(Date.now() - start) / 1000}s`);
+	console.log(`[DarkhorseJs] Built project in ${(Date.now() - start) / 1000}s`);
 	startWebserver(nodejsPath.resolve("./output"), config, serverFunctions)
 }
 
