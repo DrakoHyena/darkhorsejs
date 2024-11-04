@@ -1,11 +1,9 @@
-import { on } from "node:events";
 import * as fs from "node:fs";
 import * as http from "node:http";
-import * as nodejsPath from "node:path";
 
 const postEvents = new Map();
 
-function startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimiting=false}, serverFunctions=new Map()){
+function _startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimiting=false}, serverFunctions=new Map()){
 	if(fs.existsSync(`${outputPath}/${rootHtml}`) === false){
 		throw new Error("Specify a valid rootHtml in your config. See the documentation for more details.")
 	}
@@ -127,4 +125,4 @@ function startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimiting
 	})
 }
 
-export { startWebserver }
+export { _startWebserver }

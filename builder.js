@@ -1,12 +1,16 @@
 import * as fs from "node:fs";
 import * as nodejsPath from "node:path";
 import { parse } from "node-html-parser";
-import { startWebserver } from "./webserver.js"
+import { _startWebserver } from "./webserver.js"
 
 const dhjsPath = nodejsPath.dirname(import.meta.url).slice(8);
 
 
-function startProject(path, config) {
+function startProject(path, config={
+	"port": 3000,
+	"ratelimiting": false,
+	"rootHtml": undefined
+}) {
 	const start = Date.now();
 	if(fs.existsSync("./output") === true){
 		fs.rmSync("./output", {recursive: true, force: true});
@@ -66,7 +70,7 @@ function startProject(path, config) {
 	}
 
 	console.log(`[DarkhorseJs] Built project in ${(Date.now() - start) / 1000}s`);
-	startWebserver(nodejsPath.resolve("./output"), config, serverFunctions)
+	_startWebserver(nodejsPath.resolve("./output"), config, serverFunctions)
 }
 
 export { startProject }
