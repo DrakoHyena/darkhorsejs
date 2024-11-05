@@ -9,7 +9,8 @@ const dhjsPath = nodejsPath.dirname(import.meta.url).slice(8);
 function startProject(path, config={
 	"port": 3000,
 	"ratelimiting": false,
-	"rootHtml": undefined
+	"rootHtml": undefined,
+	"copySync": false
 }) {
 	const start = Date.now();
 	if(fs.existsSync("./output") === true){
@@ -23,6 +24,9 @@ function startProject(path, config={
 
 	const dir = fs.readdirSync(path, { recursive: true });
 	const serverFunctions = new Map();
+	function finishedBuild(){
+		console.log(`[DarkhorseJs] Built project in ${(Date.now() - start) / 1000}s`);
+	}
 	for (let dirI = 0; dirI < dir.length; dirI++) {
 		const file = dir[dirI];
 		if(file.includes(".") === false) continue;
@@ -66,10 +70,18 @@ function startProject(path, config={
 
 		// Other files
 		fs.mkdirSync(`./output/${nodejsPath.dirname(file)}`, {recursive: true})
-		fs.writeFileSync(`./output/${file}`, fs.readFileSync(`${path}/${file}`))
+		if(config.copySync === true){
+			fs.copyFileSync(`${path}/${file}`, `./output/${file}`)
+			if(dirI === dir.length-1){
+				finishedBuild()
+			}
+		}else{
+			fs.copyFile(`${path}/${file}`, `./output/${file}`, 0, ()=>{
+				if(dirI === dir.length-1) finishedBuild();
+			})
+		}
 	}
 
-	console.log(`[DarkhorseJs] Built project in ${(Date.now() - start) / 1000}s`);
 	_startWebserver(nodejsPath.resolve("./output"), config, serverFunctions)
 }
 
