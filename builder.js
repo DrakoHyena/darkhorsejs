@@ -22,7 +22,27 @@ function startProject(path, config={
 		throw new Error(`Failed to find path: ${path}`);
 	}
 
+
+
 	const dir = fs.readdirSync(path, { recursive: true });
+
+function getFiles(dir, arr=[]) {
+  const dirents = fs.readdirSync(dir, { withFileTypes: true });
+  for(let dirent of dirents){
+	if(dirent.isDirectory()){
+		getFiles(`${dirent.parentPath}/${dirent.name}`, arr)
+	}else{
+		arr.push(`${dirent.parentPath}/${dirent.name}`)
+	}
+  }
+  return arr;
+  /*const files = await Promise.all(dirents.map((dirent) => {
+    const res = resolve(dir, dirent.name);
+    return dirent.isDirectory() ? getFiles(res) : res;
+  }));*/
+}
+	console.log(getFiles(path))
+	
 	const serverFunctions = new Map();
 	function finishedBuild(){
 		console.log(`[DarkhorseJs] Built project in ${(Date.now() - start) / 1000}s`);
@@ -65,20 +85,18 @@ function startProject(path, config={
 
 			fs.mkdirSync(`./output/${nodejsPath.dirname(file)}`, {recursive: true})
 			fs.writeFileSync(`./output/${file}`, parsed.toString())
-			continue;
-		}
-
-		// Other files
-		fs.mkdirSync(`./output/${nodejsPath.dirname(file)}`, {recursive: true})
-		if(config.copySync === true){
-			fs.copyFileSync(`${path}/${file}`, `./output/${file}`)
-			if(dirI === dir.length-1){
-				finishedBuild()
-			}
+			if(dirI === dir.length-1) finishedBuild();
 		}else{
-			fs.copyFile(`${path}/${file}`, `./output/${file}`, 0, ()=>{
+			// Other files
+			fs.mkdirSync(`./output/${nodejsPath.dirname(file)}`, {recursive: true})
+			if(config.copySync === true){
+				fs.copyFileSync(`${path}/${file}`, `./output/${file}`)
 				if(dirI === dir.length-1) finishedBuild();
-			})
+			}else{
+				fs.copyFile(`${path}/${file}`, `./output/${file}`, 0, ()=>{
+					if(dirI === dir.length-1) finishedBuild();
+				})
+			}
 		}
 	}
 
