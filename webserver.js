@@ -107,7 +107,8 @@ function _startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimitin
 				}
 				for(let funct of functions) eval(funct);
 			}
-			if(filePath.endsWith(".html")) res.writeHead(200, {"Content-Type": "text/html"})
+			if(filePath.endsWith(".html")) res.writeHead(200, {"Content-Type": "text/html"});
+			if(filePath.endsWith(".js")) res.writeHead(200, {"Content-Type": "application/javascript"})
 			res.write(fs.readFileSync(`${outputPath}/${filePath}`));
     	  	res.end();
 			return;
