@@ -4,10 +4,6 @@ import * as http from "node:http";
 const postEvents = new Map();
 
 function _startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimiting=false}, serverFunctions=new Map()){
-	if(fs.existsSync(`${outputPath}/${rootHtml}`) === false){
-		throw new Error("Specify a valid rootHtml in your config. See the documentation for more details.")
-	}
-
 	http.createServer((req, res)=>{
 
 	// Add req.ip
@@ -62,20 +58,20 @@ function _startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimitin
             	return;
           	}
 
-		  	let filePath = req.urlArr.join("/");
+		  	let filePath = `${req.urlArr.join("/")}`;
 		  	if(filePath === "") filePath = rootHtml
 		  	if(fs.existsSync(`${outputPath}/${filePath}`) === true){
-			if(fs.statSync(`${outputPath}/${filePath}`).isFile() === false){
-				let files = fs.readdirSync(`${outputPath}/${filePath}`).filter((v)=>v.endsWith(".html"));
-				if(files.length > 1){
-					res.writeHead(404);
-					res.end();
-					return;
-				}
-				filePath = `${filePath}\\${files[0]}`
+				if(fs.statSync(`${outputPath}/${filePath}`).isFile() === false){
+					let files = fs.readdirSync(`${outputPath}/${filePath}`).filter((v)=>v.endsWith(".html"));
+					if(files.length > 1){
+						res.writeHead(404);
+						res.end();
+						return;
+					}
+					filePath = `/${filePath}/${files[0]}`
     	  		}
+				if(filePath.startsWith("/") === false) filePath = `/${filePath}`
 			}
-			
 			if(postEvents.has(filePath+id)) postEvents.get(filePath+id)(req, res, content)
 		})
 		return;
@@ -99,8 +95,9 @@ function _startWebserver(outputPath, {rootHtml=undefined, port=3000, ratelimitin
 					res.end();
 					return;
 				}
-				filePath = `${filePath}\\${files[0]}`
+				filePath = `/${filePath}/${files[0]}`
     	  	}
+			if(filePath.startsWith("/") === false) filePath = `/${filePath}`;
 
 			if(serverFunctions.has(filePath)){
 				let functions = serverFunctions.get(filePath);

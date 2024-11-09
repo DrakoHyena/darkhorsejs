@@ -15,23 +15,10 @@ server.request = function(id, content, cbSuccess, cbFail=console.error){
 	}).then(res=>res.text()).then(cbSuccess).catch(cbFail);
 }
 				</script>
-				<html>
-	<body>
+				<head>
 
-		<h1>Welcome to the about page! You are vistor #<span id="userCount"></span>!</h1>
-		<a href="/">Page 1</a>
-		<a href="/about/about2">Page 3</a>
-
-		<script side="client">
-			server.request("visitCount", "", (data)=>{
-				document.getElementById("userCount").innerText = data
-			})
-		</script>
-
-		
-
-		
-
-	</body>
-</html>
+</head>
+<body>
+	<a href="/about">Page 2</a>
+</body>
 			
