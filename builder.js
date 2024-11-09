@@ -34,9 +34,9 @@ function startProject(projectPath, config = {
 		const dirents = fs.readdirSync(pathParam, { withFileTypes: true });
 		for (let dirent of dirents) {
 			if (dirent.isDirectory()) {
-				getFiles(`${dirent.path}/${dirent.name}`, arr)
+				getFiles(`${pathParam}/${dirent.name}`, arr)
 			} else {
-				arr.push(`${dirent.path.replace(projectPath, "")}/${dirent.name}`)
+				arr.push(`${pathParam.replace(projectPath, "")}/${dirent.name}`)
 			}
 		}
 		return arr;
