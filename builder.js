@@ -10,7 +10,7 @@ function startProject(projectPath, config = {
 	"port": 3000,
 	"ratelimiting": false,
 	"rootHtml": undefined,
-	"async": false
+	"async": true
 }) {
 	const start = Date.now();
 	function finishedBuild() {

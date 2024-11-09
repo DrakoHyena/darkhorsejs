@@ -4,7 +4,7 @@ const config = {
 	"port": 3000,
 	"ratelimiting": false,
 	"rootHtml": "index.html",
-	"async": false,
+	"async": true,
 }
 
 startProject("./examples/project", config)
