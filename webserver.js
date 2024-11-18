@@ -27,7 +27,7 @@ function _startWebserver(outputPath, { rootHtml = undefined, port = 3000, rateli
 
 		// Add req.cookies
 		req.cookies = [];
-		if (req.headers.cookie) {
+		if (req.headers?.cookie) {
 			req.headers.cookie.split(";").map((str) => {
 				cookies.push(str.trim().split("="))
 			});
@@ -113,7 +113,7 @@ function _startWebserver(outputPath, { rootHtml = undefined, port = 3000, rateli
 					const fullFilePath = `${outputPath}/${filePath}`;
 					const fileSize = fs.statSync(fullFilePath).size;
 
-					if (req.headers.range) {
+					if (req.headers?.range) {
 						const range = req.headers.range.slice(6).split("-");;
 						range[0] = parseInt(range[0], 10);
 						range[1] = parseInt(range[1], 10) || fileSize - 1;
