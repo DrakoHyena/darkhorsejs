@@ -8,7 +8,7 @@ function _startWebserver(outputPath, { rootHtml = undefined, port = 3000, rateli
 
 		// Add req.ip
 		// Not guaranteed
-		req.ip = req.socket.address || req.headers["x-forwarded-for"].split(",::").shift()
+		req.ip = req.headers["X-Real-IP"] || req.socket.address().address || req.headers["x-forwarded-for"].split(",::").shift()
 
 		// Rate limiting
 		if (ratelimiting === true) {
@@ -29,7 +29,7 @@ function _startWebserver(outputPath, { rootHtml = undefined, port = 3000, rateli
 		req.cookies = [];
 		if (req.headers?.cookie) {
 			req.headers.cookie.split(";").map((str) => {
-				cookies.push(str.trim().split("="))
+				req.cookies.push(str.trim().split("="))
 			});
 		}
 
