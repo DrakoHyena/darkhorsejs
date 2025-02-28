@@ -3,6 +3,8 @@ Darkhorse is javascript framework to quickly spin up websites. Server code is st
 
 ## Docs
 Look at the examples folder if youre confused on anything :-)
+### ./OUTPUT
+This is a generated directory. Changes made will not be saved.
 ### HTML
 - Attribute: side
 	- server
