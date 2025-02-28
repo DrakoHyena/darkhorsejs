@@ -105,7 +105,7 @@ function _startWebserver(outputPath, { rootHtml = undefined, port = 3000, rateli
 					client.on = function (id, funct) {
 						postEvents.set(filePath + id, funct);
 					}
-					for (let funct of functions) eval(funct);
+					for (let funct of functions) eval(`(async()=>{${funct}})();`);
 				}
 
 				// Send files, hand special cases
