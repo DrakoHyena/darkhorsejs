@@ -5,6 +5,8 @@ Darkhorse is javascript framework to quickly spin up websites. Server code is st
 Look at the examples folder if youre confused on anything :-)
 ### ./OUTPUT
 This is a generated directory. Changes made will not be saved.
+### IMPORTS & EXPORTS
+Compiled server sided code cannot contain any import or export statements. However, you can use dynamic imports to import non-compiled server files which which can use imports and exports. This might be useful if you have a database utility. (by default fs and http are imported for you)
 ### HTML
 - Attribute: side
 	- server
